@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# removes trailing chars on all lines
+# part of shell-tools (GPLv3)
+
+cp "$1" "$1_tmp"
+awk '{gsub(/^ +|  +$/,"")}1' "$1_tmp" > "$1"
+rm "$1_tmp"

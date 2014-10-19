@@ -1,0 +1,60 @@
+#!/bin/bash
+# License:  GPLv3
+# Function: script to do mass expansion
+# part of shell-tools (GPLv3)
+
+EXPAND=0
+
+function PrintUsage {
+cat <<EOF
+usage: `basename $0` [options]
+
+This script is used for mass expansion.
+
+OPTIONS:
+    -u     unexpand
+    -h     help
+EOF
+}
+TEMP=`getopt -o hu --long help,unexpand -- "$@"`
+
+#if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+
+eval set -- "$TEMP"
+
+while true; do 
+    case "$1" in
+        -u | --unexpand )
+            # shift one more for parameters & add dot in TEMP
+            # user=$2
+            EXPAND=1
+            shift 1
+        ;;
+        -h | --help ) 
+            PrintUsage
+            exit
+        ;;
+        *)
+            break
+        ;;
+    esac 
+done;
+
+
+# now we start with Parameter 2
+
+if [ $EXPAND -eq 1 ]; then
+    echo "Unexpanded"
+    if [ -n "$2" ] ; then
+        find . -name "$2" ! -type d -exec bash -c 'unexpand -a -t 4 "$1" > /tmp/unexpand && mv /tmp/unexpand "$1"' _ {} \;
+    else
+        find . ! -type d -exec bash -c 'unexpand -a -t 4 "$1" > /tmp/unexpand && mv /tmp/unexpand "$1"' _ {} \;
+    fi
+else
+    echo "Expanded"
+    if [ -n "$2" ] ; then
+        find . -name "$2" ! -type d -exec bash -c 'expand -t 4 "$1" > /tmp/expand && mv /tmp/expand "$1"' _ {} \;
+    else
+        find . ! -type d -exec bash -c 'expand -t 4 "$1" > /tmp/expand && mv /tmp/expand "$1"' _ {} \;
+    fi
+fi

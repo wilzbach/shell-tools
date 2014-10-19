@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Copy with creating dirs
+
+mkdir -p "${!#}";
+cp -r "$@";

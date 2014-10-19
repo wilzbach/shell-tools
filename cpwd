@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Copy the working dir to the clipboard
+# part of shell-tools (GPLv3)
+
+folder=$(pwd)
+
+echo "folder" |xargs echo -n| xsel --clipboard

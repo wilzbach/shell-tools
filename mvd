@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Move with creating dirs
+# part of shell-tools (GPLv3)
+
+mkdir -p "${!#}";
+mv "$@";

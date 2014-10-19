@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# evals a command every [-t] seconds
+# and prints the result to stdout
+# part of shell-tools (GPLv3)
+
+RELOAD_TIME=2
+
+while test $# -gt 0; do
+        case "$1" in
+                -h|--help)
+                        echo "$package - attempt to capture frames"
+                        echo " "
+                        echo "$package [options] application [arguments]"
+                        echo " "
+                        echo "options:"
+                        echo "-h, --help                show brief help"
+                        echo "-a, --action=ACTION       specify an action to use"
+						echo "-t, --time=TIME 			time to sleep between two calls"
+                        echo "-o, --output-dir=DIR      specify a directory to store output in"
+                        exit 0
+                        ;;
+                -a)
+                        shift
+                        if test $# -gt 0; then
+                                export PROCESS=$1
+                        else
+                                echo "no process specified"
+                                exit 1
+                        fi
+                        shift
+                        ;;
+                --action*)
+                        export PROCESS=`echo $1 | sed -e 's/^[^=]*=//g'`
+                        shift
+                        ;;
+                -o)
+                        shift
+                        if test $# -gt 0; then
+                                export OUTPUT=$1
+                        else
+                                echo "no output dir specified"
+                                exit 1
+                        fi
+                        shift
+                        ;;
+                --output-dir*)
+                        export OUTPUT=`echo $1 | sed -e 's/^[^=]*=//g'`
+                        shift
+                        ;;
+				-t|--time)
+					    shift
+					    if test $# -gt 0; then
+					    	export RELOAD_TIME=$1
+					    else
+							echo "no time specified"
+							exit 1
+						fi
+						shift
+					    ;;
+                *)
+                        break
+                        ;;
+        esac
+done
+
+
+clearline="\b\033[2K\r"
+command=$@
+
+while true
+do
+    eval "$command"
+    sleep "$RELOAD_TIME""s"
+    echo -n -e "$clearline"
+done

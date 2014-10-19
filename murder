@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# kills a process (uses ps and grep)
+# part of shell-tools (GPLv3)
+
+ps aux | grep -i "$1" | awk '{print $2}' | xargs kill -9

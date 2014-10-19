@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# displays the typed key code
+# useful for defining a custimized keymap
+# part of shell-tools (GPLv3)
+
+xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'

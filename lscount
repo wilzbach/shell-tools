@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# count number of files per directory
+# part of shell-tools (GPLv3)
+
+if [[ "$1" ]] ; then
+	folder="$1"
+else
+	folder=$(pwd)
+fi
+
+find "$folder" -maxdepth 1 | parallel --no-notice "find {} -follow -type f | wc -l | tr -d '\n';echo ' ' {}" | sort -n

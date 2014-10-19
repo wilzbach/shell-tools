@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# sort files in current directory by the number of words they contain
+
+# part of shell-tools (GPLv3)
+wc -w * | sort | tail -n10

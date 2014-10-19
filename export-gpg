@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# exports all your friends public keys to a folder
+# part of shell-tools (GPLv3)
+
+folder="$1"
+
+gpg --list-public-keys | grep "^pub" | cut -d " " -f 4 | cut -d "/" -f 2 | parallel --no-notice "gpg --armor --export {} > "$folder"/{}.asc"

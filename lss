@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# display the size of all subfolders (only the current level)
+# part of shell-tools (GPLv3)
+
+dir="$1"
+
+if [ -z "$dir" ] ; then
+    dir="."
+fi
+du -d 1 -h  "$dir" | sort -h
